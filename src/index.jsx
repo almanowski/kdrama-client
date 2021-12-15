@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import MainView from './components/main-view/main-view';
 
 // Import statement to indicate that you need to budle ./index.scss
 import './index.scss';
@@ -8,9 +9,7 @@ import './index.scss';
 class kDramaApplication extends React.Component {
     render() {
         return (
-            <div className="kdrama">
-                <div>Good morning</div>
-            </div>
+            <MainView />
         );
     }
 }
