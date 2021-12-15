@@ -945,26 +945,19 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactDom = require("react-dom");
 var _reactDomDefault = parcelHelpers.interopDefault(_reactDom);
+var _mainView = require("./components/main-view/main-view");
+var _mainViewDefault = parcelHelpers.interopDefault(_mainView);
 // Import statement to indicate that you need to budle ./index.scss
 var _indexScss = require("./index.scss");
 // Main component (will eventually use all the others)
 class kDramaApplication extends _reactDefault.default.Component {
     render() {
-        return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
-            className: "kdrama",
+        return(/*#__PURE__*/ _jsxRuntime.jsx(_mainViewDefault.default, {
             __source: {
                 fileName: "src/index.jsx",
-                lineNumber: 11
+                lineNumber: 12
             },
-            __self: this,
-            children: /*#__PURE__*/ _jsxRuntime.jsx("div", {
-                __source: {
-                    fileName: "src/index.jsx",
-                    lineNumber: 12
-                },
-                __self: this,
-                children: "Good morning"
-            })
+            __self: this
         }));
     }
 }
@@ -978,7 +971,7 @@ _reactDomDefault.default.render(/*#__PURE__*/ _reactDefault.default.createElemen
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-dom":"gkWJK","./index.scss":"jUTZ8","@parcel/transformer-js/src/esmodule-helpers.js":"jcQDb","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"Pzx1j"}],"8xIwr":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-dom":"gkWJK","./index.scss":"jUTZ8","@parcel/transformer-js/src/esmodule-helpers.js":"jcQDb","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"Pzx1j","./components/main-view/main-view":"2zHas"}],"8xIwr":[function(require,module,exports) {
 'use strict';
 module.exports = require('./cjs/react-jsx-runtime.development.js');
 
@@ -22888,6 +22881,440 @@ function registerExportsForReactRefresh(module) {
     }
 }
 
-},{"react-refresh/runtime":"fvkUs"}]},["k2P2Y","gOFEw","dLPEP"], "dLPEP", "parcelRequireb175")
+},{"react-refresh/runtime":"fvkUs"}],"2zHas":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$35bf = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$35bf.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MainView", ()=>MainView
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _dramaCard = require("../drama-card/drama-card");
+var _dramaView = require("../drama-view/drama-view");
+class MainView extends _reactDefault.default.Component {
+    constructor(){
+        super();
+        this.state = {
+            dramas: [
+                {
+                    Title: 'Guardian: The Lonely and Great God',
+                    _id: 1,
+                    Episode: '16',
+                    ReleaseYear: '2016',
+                    Description: 'Kim Shin, a decorated military general from the Goryeo... - Wikipedia',
+                    Genre: [
+                        'fantasy, ',
+                        'romance'
+                    ],
+                    Director: [
+                        'Lee Eung-Bok'
+                    ],
+                    Writer: [
+                        'Kim Eun-Sook'
+                    ],
+                    ImagePath: 'https://dl.dropboxusercontent.com/s/eg39fi3emom8hly/poster_placeholder.png?dl=0'
+                },
+                {
+                    Title: 'Oh my Venus',
+                    _id: 2,
+                    Episode: '16',
+                    ReleaseYear: '2015',
+                    Description: 'Kim Young-ho, a.k.a. John Kim, is a personal trainer to Hollywood stars...  - Wikipedia',
+                    Genre: [
+                        'comedy, ',
+                        'romance, ',
+                        'drama'
+                    ],
+                    Director: [
+                        'Kim Hyung-suk'
+                    ],
+                    Writer: [
+                        'Kim Eun-Ji'
+                    ],
+                    ImagePath: 'https://dl.dropboxusercontent.com/s/eg39fi3emom8hly/poster_placeholder.png?dl=0'
+                },
+                {
+                    Title: 'Suspicious Partner',
+                    _id: 3,
+                    Episode: '40',
+                    ReleaseYear: '2017',
+                    Description: 'The series is about Noh Ji-wook (Ji Chang-wook), a prosecutor, and Eun Bong-hee (Nam Ji-hyun), a prosecutor trainee,... - Wikipedia',
+                    Genre: [
+                        'romance, ',
+                        'comedy, ',
+                        'legal, ',
+                        'crime'
+                    ],
+                    Director: [
+                        'Park Sun-Ho'
+                    ],
+                    Writer: [
+                        'Kwon Ki-Young'
+                    ],
+                    ImagePath: 'https://dl.dropboxusercontent.com/s/eg39fi3emom8hly/poster_placeholder.png?dl=0'
+                }, 
+            ],
+            selectedDrama: null
+        };
+    }
+    setSelectedDrama(newSelectedDrama) {
+        this.setState({
+            selectedDrama: newSelectedDrama
+        });
+    }
+    render() {
+        const { dramas , selectedDrama  } = this.state;
+        if (dramas.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
+            className: "main-view",
+            __source: {
+                fileName: "src/components/main-view/main-view.jsx",
+                lineNumber: 57
+            },
+            __self: this,
+            children: "The list is empty!"
+        }));
+        return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
+            className: "main-view",
+            __source: {
+                fileName: "src/components/main-view/main-view.jsx",
+                lineNumber: 60
+            },
+            __self: this,
+            children: selectedDrama ? /*#__PURE__*/ _jsxRuntime.jsx(_dramaView.DramaView, {
+                drama: selectedDrama,
+                onBackClick: (newSelectedDrama)=>{
+                    this.setSelectedDrama(newSelectedDrama);
+                },
+                __source: {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 62
+                },
+                __self: this
+            }) : dramas.map((drama)=>/*#__PURE__*/ _jsxRuntime.jsx(_dramaCard.DramaCard, {
+                    drama: drama,
+                    onDramaClick: (drama1)=>{
+                        this.setSelectedDrama(drama1);
+                    },
+                    __source: {
+                        fileName: "src/components/main-view/main-view.jsx",
+                        lineNumber: 65
+                    },
+                    __self: this
+                }, drama._id)
+            )
+        }));
+    }
+}
+exports.default = MainView;
+
+  $parcel$ReactRefreshHelpers$35bf.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"jcQDb","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"Pzx1j","../drama-card/drama-card":"67hkQ","../drama-view/drama-view":"iUyWs"}],"67hkQ":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$9ac4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$9ac4.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "DramaCard", ()=>DramaCard
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+class DramaCard extends _reactDefault.default.Component {
+    render() {
+        const { drama , onDramaClick  } = this.props;
+        return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
+            className: "drama-card",
+            onClick: ()=>{
+                onDramaClick(drama);
+            },
+            __source: {
+                fileName: "src/components/drama-card/drama-card.jsx",
+                lineNumber: 6
+            },
+            __self: this,
+            children: drama.Title
+        }));
+    }
+}
+
+  $parcel$ReactRefreshHelpers$9ac4.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"jcQDb","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"Pzx1j"}],"iUyWs":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$569d = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$569d.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "DramaView", ()=>DramaView
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+class DramaView extends _reactDefault.default.Component {
+    render() {
+        const { drama , onBackClick  } = this.props;
+        return(/*#__PURE__*/ _jsxRuntime.jsxs("div", {
+            className: "drama-view",
+            __source: {
+                fileName: "src/components/drama-view/drama-view.jsx",
+                lineNumber: 8
+            },
+            __self: this,
+            children: [
+                /*#__PURE__*/ _jsxRuntime.jsx("div", {
+                    className: "drama-poster",
+                    __source: {
+                        fileName: "src/components/drama-view/drama-view.jsx",
+                        lineNumber: 9
+                    },
+                    __self: this,
+                    children: /*#__PURE__*/ _jsxRuntime.jsx("img", {
+                        src: drama.ImagePath,
+                        crossOrigin: "anonymous",
+                        width: "150px",
+                        __source: {
+                            fileName: "src/components/drama-view/drama-view.jsx",
+                            lineNumber: 10
+                        },
+                        __self: this
+                    })
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
+                    className: "drama-title",
+                    __source: {
+                        fileName: "src/components/drama-view/drama-view.jsx",
+                        lineNumber: 12
+                    },
+                    __self: this,
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "label",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 13
+                            },
+                            __self: this,
+                            children: "Title: "
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "value",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 14
+                            },
+                            __self: this,
+                            children: drama.Title
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
+                    className: "drama-description",
+                    __source: {
+                        fileName: "src/components/drama-view/drama-view.jsx",
+                        lineNumber: 16
+                    },
+                    __self: this,
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "label",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 17
+                            },
+                            __self: this,
+                            children: "Description: "
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "value",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 18
+                            },
+                            __self: this,
+                            children: drama.Description
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
+                    className: "drama-genre",
+                    __source: {
+                        fileName: "src/components/drama-view/drama-view.jsx",
+                        lineNumber: 20
+                    },
+                    __self: this,
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "label",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 21
+                            },
+                            __self: this,
+                            children: "Genre: "
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "value",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 22
+                            },
+                            __self: this,
+                            children: drama.Genre
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
+                    className: "drama-episode",
+                    __source: {
+                        fileName: "src/components/drama-view/drama-view.jsx",
+                        lineNumber: 24
+                    },
+                    __self: this,
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "label",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 25
+                            },
+                            __self: this,
+                            children: "Episode: "
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "value",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 26
+                            },
+                            __self: this,
+                            children: drama.Episode
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
+                    className: "drama-releaseYear",
+                    __source: {
+                        fileName: "src/components/drama-view/drama-view.jsx",
+                        lineNumber: 28
+                    },
+                    __self: this,
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "label",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 29
+                            },
+                            __self: this,
+                            children: "Release Year: "
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "value",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 30
+                            },
+                            __self: this,
+                            children: drama.ReleaseYear
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
+                    className: "drama-director",
+                    __source: {
+                        fileName: "src/components/drama-view/drama-view.jsx",
+                        lineNumber: 32
+                    },
+                    __self: this,
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "label",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 33
+                            },
+                            __self: this,
+                            children: "Director: "
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "value",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 34
+                            },
+                            __self: this,
+                            children: drama.Director
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
+                    className: "drama-writer",
+                    __source: {
+                        fileName: "src/components/drama-view/drama-view.jsx",
+                        lineNumber: 36
+                    },
+                    __self: this,
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "label",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 37
+                            },
+                            __self: this,
+                            children: "Writer: "
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "value",
+                            __source: {
+                                fileName: "src/components/drama-view/drama-view.jsx",
+                                lineNumber: 38
+                            },
+                            __self: this,
+                            children: drama.Writer
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsx("button", {
+                    onClick: ()=>{
+                        onBackClick(null);
+                    },
+                    __source: {
+                        fileName: "src/components/drama-view/drama-view.jsx",
+                        lineNumber: 40
+                    },
+                    __self: this,
+                    children: "Back"
+                })
+            ]
+        }));
+    }
+}
+
+  $parcel$ReactRefreshHelpers$569d.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"jcQDb","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"Pzx1j"}]},["k2P2Y","gOFEw","dLPEP"], "dLPEP", "parcelRequireb175")
 
 //# sourceMappingURL=index.6701a6e1.js.map
