@@ -1,0 +1,25 @@
+.card {
+    height: 100%;
+}
+
+.card-img-top {
+    width: 14rem;
+    height: 22rem;
+    align-self: center;
+}
+
+.card-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@supports (display: -webkit-box) {
+    .card-text {
+        /* autoprefixer: off */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        white-space: normal;
+    }
+}
