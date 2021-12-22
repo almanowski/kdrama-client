@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {Container, Col, Row} from 'react-bootstrap';
+import {Col, Row} from 'react-bootstrap';
 
 import {RegistrationView} from '../registration-view/registration-view';
 import {LoginView} from '../login-view/login-view';
