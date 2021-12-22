@@ -1,5 +1,6 @@
 $prim-color: #07004d;
 $sec-color: #5dfdcb;
+$opp-color: #fff;
 
 html,
 body {
@@ -17,16 +18,30 @@ h5 {
 button {
   border: none;
   border-radius: 50px;
-  background-color: #fff;
+  background-color: $opp-color;
 }
 
 .app-container {
   height: 100%;
 }
 
+.nav-container {
+  margin: 0 !important;
+  max-width: 100% !important;
+}
+
+.nav-link {
+  color: $opp-color !important;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: $sec-color !important;
+}
+
 .btn-primary {
   background-color: $prim-color !important;
-  color: #fff !important;
+  color: $opp-color !important;
   border-color: $prim-color !important;
   font-weight: 500 !important;
 }
@@ -42,7 +57,7 @@ button {
 }
 
 .btn-outline-secondary:hover {
-  color: #fff !important;
+  color: $opp-color !important;
   background-color: $prim-color !important;
   border-color: $prim-color !important;
 }
