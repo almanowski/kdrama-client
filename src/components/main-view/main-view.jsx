@@ -1,11 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-import {Col, Row} from 'react-bootstrap';
+import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
+import {Container, Col, Row} from 'react-bootstrap';
 
 import {RegistrationView} from '../registration-view/registration-view';
 import {LoginView} from '../login-view/login-view';
+import {Navbar} from '../navbar/navbar';
 import {DramaCard} from '../drama-card/drama-card';
 import {DramaView} from '../drama-view/drama-view';
+import {DirectorView} from '../director-view/director-view';
+import {GenreView} from '../genre-view/genre-view';
+import {ProfileView} from '../profile-view/profile-view';
 
 import './main-view.scss'
 
@@ -15,67 +20,163 @@ export class MainView extends React.Component {
     // Initial state is set to null
     this.state = {
       dramas: [],
-      selectedDrama: null
-    }
-}
+      genres: [],
+      user: null
+    };
+  }
 
-  componentDidMount(){
-    axios.get('https://mykdrama-api.herokuapp.com/korean-dramas')
+  getDramas(token) {
+    axios.get('https://mykdrama-api.herokuapp.com/korean-dramas', {
+      headers: {Authorization: `Bearer ${token}`}
+    })
     .then(response => {
+      //Asign the result to the state
       this.setState({
         dramas: response.data
       });
     })
-    .catch(error => {
+    .catch(function (error) {
       console.log(error);
     });
   }
 
-  /* When a drama is clicked, this function is invoked and aupdate the state
-  of the 'selecetDrama' property to that drama */
-
-  setSelectedDrama(newSelectedDrama) {
-    this.setState({
-      selectedDrama: newSelectedDrama
+  getGenres(token) {
+    axios.get('https://mykdrama-api.herokuapp.com/genres/:name', {
+      headers: {Authorization: `Bearer ${token}`}
+    })
+    .then(response => {
+      //Asign the result to the state
+      this.setState({
+        genres: response.data
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
     });
   }
 
-  /* When a user successfully logs in, this function updates the 'user'
-  property in state to that particular user */
+  componentDidMount(){
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user:localStorage.getItem('user')
+      });
+      this.getDramas(accessToken);
+      this.getGenres(accessToken);
+    }
+  }
 
-  onLoggedIn(user) {
+  /* When a user successfully logs in, this function updates the 
+  'user' property in state tot that 'particular user' */
+  onLoggedIn(authData) {
+    console.log(authData);
     this.setState({
-      user
+      user: authData.user.Username
     });
+
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    this.getDramas(authData.token);
+    this.getGenres(authData.token);
   }
 
   render() {
-      const {dramas, selectedDrama, user} = this.state;
-
-      /*If there is no user, the LoginView is rendered. 
-      If there is a user logged in, the user details are passed as a prop to the LoginView */
-      if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-
-      // Before the movies have been loaded
-      if (dramas.length === 0) return <div className="main-view" />;
+      const {dramas, genres, user} = this.state;
 
       return (
-        <Row className="main-view justify-content-md-center">
-        {/* If the state of 'selectedDrama' is not null, that selected drama will be returned otherwise,
-        all dramas will be returned */}
-          {selectedDrama
-            ? (
-              <Col md={8} className="drama-view-shell">
-                <DramaView drama={selectedDrama} onBackClick={newSelectedDrama => {this.setSelectedDrama(newSelectedDrama); }} />
-              </Col>
-            )
-            : dramas.map(drama => (
-              <Col md={3} className='justify-content-md-center mt-5'>
-                <DramaCard key={drama._id} drama={drama} onDramaClick={(newSelectedDrama) => {this.setSelectedDrama(newSelectedDrama)}} />
-              </Col>
-            )) 
-          }
-        </Row> 
+        <Router>
+          <Route path='/' render={() => {
+            if (user) return <Col className="mynavbar">
+              <Navbar user={user} />
+            </Col>
+          }} />
+          
+          <Container className="main-view-container">
+            <Row className="main-view justify-content-md-center">
+              <Route exact path="/" render={() => {
+                if (!user) return <Col>
+                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                </Col>
+                
+                // Before the movies have been loaded
+                if (dramas.length === 0) return <div className="main-view" />;
+
+                return dramas.map(d =>(
+                  <Col md={3} key={d._id}>
+                    <DramaCard drama={d} />
+                  </Col>
+                ))
+              }} />
+
+              <Route path="/register" render={() => {
+                if (user) return <Redirect to="/" />
+                return <Col>
+                  <RegistrationView />
+                </Col>
+              }} />
+
+              <Route path="/korean-dramas/:dramaId" render={({match, history}) => {
+                if (!user) return <Col>
+                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                </Col>
+
+                // Before the movies have been loaded
+                if (dramas.length === 0) return <div className="main-view" />;
+
+                return <Col md={8}>
+                  <DramaView drama={dramas.find(m => m._id === match.params.dramaId)} onBackClick={() => history.goBack()} />
+                </Col>
+              }} />
+
+              <Route path="/directors/:name" render={({match, history}) => {
+                if (!user) return <Col>
+                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                </Col>
+
+                // Before the movies have been loaded
+                if (dramas.length === 0) return <div className="main-view" />;
+                
+                return <Col md={8}>
+                  <DirectorView director={dramas.find(d => d.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()} />
+                </Col>
+              }} />
+
+              <Route exact path="/genres/:name" render={({match, history}) => {
+                if (!user) return <Col>
+                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                </Col>
+
+                // Before the movies have been loaded
+                if (dramas.length === 0) return <div className="main-view" />;
+              
+                return <Col md={8}>
+                  <GenreView genre={genres.find(g => g.Name === match.params.name)} onBackClick={() => history.goBack()} />
+                </Col>
+              }} />
+              
+              {/* route for link on main-view to profile-view */}
+              <Route path="/users/:username" render={({match, history}) => {
+                if (!user) return <Col>
+                <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                </Col>
+
+                // Before the movies have been loaded
+                if (dramas.length === 0) return <div className="main-view" />; 
+                
+                return <Col>
+                  <ProfileView user={user.find(u => u.username === match.params.username).Genre} onBackClick={() => history.goBack()} />
+                </Col>
+              }} />
+
+              <Route path="/user-update/:username" render={({match, history}) => {
+                if (!user) return <Redirect to="/" />
+                return <Col>
+                  <UserUpdate user={user.find(u => u.username === match.params.username).Genre} onBackClick={() => history.goBack()} />
+                </Col>
+              }} />
+            </Row>
+          </Container>
+        </Router>
       );
   }
 }
