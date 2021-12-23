@@ -1,3 +1,12 @@
 .form-label {
-    font-weight: 400 !important;
+  font-weight: 400 !important;
+}
+
+.form-text {
+  margin-top: -8px !important;
+}
+
+.invalid {
+  color: #B30C00;
+  font-weight: 400;
 }

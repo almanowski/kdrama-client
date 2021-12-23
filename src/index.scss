@@ -25,6 +25,12 @@ button {
   height: 100%;
 }
 
+.container,
+.mynavbar {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 .nav-container {
   margin: 0 !important;
   max-width: 100% !important;
@@ -64,5 +70,11 @@ button {
 
 .navbar {
   background-color: $prim-color;
+}
+
+@media (min-width: 1200px) {
+  .container {
+      max-width: 100% !important;
+  }
 }
 
