@@ -13,7 +13,7 @@ export function Navbar() {
   return (
     <Navbar className="main-nav" sticky="top" expand="lg" variant="dark">
       <Container className="nav-container">
-      <Navbar.Brand href="#home" className="ml-5">
+      <Navbar.Brand href="/" className="ml-5">
           <img className="d-inline-block align-top" alt="myDramas" src={"https://dl.dropboxusercontent.com/s/j8gnxagz3ia496k/logo.svg?dl=0"} crossOrigin ="anonymous" height="50" />{' '}
       </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
