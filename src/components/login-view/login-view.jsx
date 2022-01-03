@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {Form, Button, Card, Container, Row} from 'react-bootstrap';
+import {Form, Button, Card, Row, Col} from 'react-bootstrap';
 
 import './login-view.scss'
 
@@ -53,11 +53,11 @@ export function LoginView(props) {
   };
 
   return (
-    <Container>
-      <Row className="justify-content-md-center">
-        <Card className="mt-5">
+    <Row className="justify-content-md-center">
+      <Col xs={12}  md={6} lg={4}>
+        <Card className="mt-5 log-card">
           <Card.Body>
-          <Card.Title className="text-center mb-4">Sign in</Card.Title>
+            <Card.Title className="text-center mb-5 mt-2">Sign in</Card.Title>
             <Form> 
               <Form.Group className="mb-3" controlId="formUsername">
                 <Form.Label>Username</Form.Label>
@@ -73,16 +73,18 @@ export function LoginView(props) {
                 {passwordErr && <p>{passwordErr}</p>}
               </Form.Group>
 
-              <Button href="/register" variant="outline-secondary" className="signup-button">Sign up</Button>
+              <Button href="/register" variant="outline-secondary" className="signup-button mt-2">
+                Sign up
+              </Button>
 
-              <Button type="submit" onClick={handleSubmit} className="float-right">
+              <Button type="submit" onClick={handleSubmit} className="float-right mt-2">
                 Sign in
               </Button>
             </Form>
           </Card.Body>
         </Card>
-      </Row>
-    </Container>
+      </Col>
+    </Row>
   )
 }
 
