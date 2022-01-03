@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {Form, Button, Card, Container, Row} from 'react-bootstrap'
+import {Form, Button, Card, Row, Col} from 'react-bootstrap'
 /* import {Link} from 'react-router-dom'; */
 
 import './registration-view.scss'
@@ -65,51 +65,52 @@ export function RegistrationView() {
   };
 
   return (
-    <Container>
-      <Row className="justify-content-md-center">
-        <Card className="mt-5">
+    <Row className="justify-content-md-center">
+      <Col xs={12} md={6} lg={4}>
+        <Card className="mt-4 registration-card">
           <Card.Body>
-          <Card.Title className="text-center mb-4">Sign up</Card.Title>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Username</Form.Label>
-              <Form.Text id="usernameHelpBlock" size="sm" muted>
-                Use 5 or more characters with a mix of letters and numbers
+            <Card.Title className="text-center mb-4">Sign up</Card.Title>
+            <Form>
+              <Form.Group className="mb-3">
+                <Form.Label>Username</Form.Label>
+                <Form.Text id="usernameHelpBlock" size="sm" muted>
+                  Use 5 or more characters with a mix of letters and numbers
                 </Form.Text>
-              <Form.Control type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Enter a Username" />
-              {/* code added here to display validation error */}
-              {usernameErr && <p className="invalid">{usernameErr}</p>}
-            </Form.Group>
-            
-            <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Text id="passwordHelpBlock" size="sm" muted>
-                Use 8 or more characters with a mix of letters and numbers
-              </Form.Text>
-              <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter a Password" />
-              {/* code added here to display validation error */}
-              {passwordErr && <p className="invalid">{passwordErr}</p>}
-            </Form.Group>
+                <Form.Control type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Enter a Username" />
+                {/* code added here to display validation error */}
+                {usernameErr && <p className="invalid">{usernameErr}</p>}
+              </Form.Group>
+              
+              <Form.Group className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Text id="passwordHelpBlock" size="sm" muted>
+                  Use 8 or more characters with a mix of letters and numbers
+                </Form.Text>
+                <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter a Password" />
+                {/* code added here to display validation error */}
+                {passwordErr && <p className="invalid">{passwordErr}</p>}
+              </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="example@email.com" />
-              {/* code added here to display validation error */}
-              {emailErr && <p className="invalid">{emailErr}</p>}
-            </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="example@email.com" />
+                {/* code added here to display validation error */}
+                {emailErr && <p className="invalid">{emailErr}</p>}
+              </Form.Group>
 
-            <Form.Group className="mb-5">
-              <Form.Label>Birthday<span className="font-italic"> - optional</span></Form.Label>
-              <Form.Control type="date" value={birthday} onChange={e => setBirthday(e.target.value)} />
-            </Form.Group>
-            <Button href="/" variant="outline-secondary" className="signin-button">Sign in</Button>
+              <Form.Group className="mb-5">
+                <Form.Label>Birthday<span className="font-italic"> - optional</span></Form.Label>
+                <Form.Control type="date" value={birthday} onChange={e => setBirthday(e.target.value)} />
+              </Form.Group>
+              
+              <Button href="/" variant="outline-secondary" className="signin-button">Sign in</Button>
 
-            <Button type="submit" onClick={handleSubmit} className="float-right">Sign up</Button>
-          </Form>
+              <Button type="submit" onClick={handleSubmit} className="float-right">Sign up</Button>
+            </Form>
           </Card.Body>
         </Card>
-      </Row>
-    </Container>
+      </Col>
+    </Row>
   )
 }
 
