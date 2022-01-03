@@ -1,11 +1,61 @@
-.drama-view-shell {
-    background-color: #fff;
-    height: 100% !important;
-    padding-left: 30px !important;
-    padding-right: 30px !important;
-}
-
 .main-view-container {
-    margin: 20px 50px !important;
+  margin: 20px 50px !important;
 }
 
+.main-view-row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.main-view-navbar {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+
+@media (min-width: 280px){
+  .main-view-col {
+    padding-left: 0px !important;
+  }
+}
+
+@media (min-width: 360px){
+  .main-view-col {
+    padding-left: 30px !important;
+  }
+}
+
+@media (min-width: 375px){
+  .main-view-col {
+    padding-left: 40px !important;
+  }
+}
+
+@media (min-width: 410px){
+  .main-view-col {
+    padding-left: 55px !important;
+  }
+}
+
+
+@media (min-width: 992px){
+  .main-view-col {
+    padding-left: 30px !important;
+  }
+}
+
+
+@media (min-width: 1300px) {
+  /*   .main-view-row {
+        margin-left: 48px;
+    } */
+    .main-view-col {
+      padding-left: 55px !important;
+    }
+  }
+
+
+
+.h5 {
+  font-size: 1.2rem !important;
+}

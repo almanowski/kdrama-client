@@ -1,9 +1,58 @@
+.drama-view {
+  margin-top: -20px !important;
+}
+
 .back-button {
-    position: absolute !important;
-    background-color: #ebfff9;
-    left: -195px;
+  margin-bottom: 15px;
+  margin-top: -15px;
+}
+
+.float-img {
+  float: none;
 }
 
 .label {
-    font-weight: 500 !important;
+  font-weight: 500 !important;
+}
+
+.drama-view-col {
+  padding-left: 30px !important;
+}
+
+.drama-description {
+  padding-left: 15px;
+}
+
+.link {
+  color: #5747FF !important;
+}
+
+@media (min-width: 768px){
+  .drama-view {
+    margin-top: 0 !important;
+  }
+
+  .float-img {
+    float: right;
+  }
+
+  .drama-view-col {
+    padding-left: 15px !important;
+  }
+
+  .drama-description {
+    padding-left: 0 !important;
+  }
+
+  .back-button {
+    position: absolute !important;
+    left: -100px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .back-button {
+    position: absolute !important;
+    left: -195px;
+  }
 }
