@@ -1,0 +1,22 @@
+$prim-color: #07004d;
+$sec-color: #5dfdcb;
+$opp-color: #fff;
+
+.navbar {
+  background-color: $prim-color;
+}
+
+.nav-link {
+  color: $opp-color !important;
+}
+  
+.nav-link:hover,
+.nav-link:focus {
+  color: $sec-color !important;
+}
+
+@media (min-width: 1200px) {
+  .navbar-brand {
+    margin-left: 30px;
+  }
+}
