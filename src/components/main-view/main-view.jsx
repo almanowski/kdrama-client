@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
-import {Container, Col, Row} from 'react-bootstrap';
+import {Col, Row} from 'react-bootstrap';
 
 import {RegistrationView} from '../registration-view/registration-view';
 import {LoginView} from '../login-view/login-view';
@@ -14,60 +14,68 @@ import {ProfileView} from '../profile-view/profile-view';
 
 import './main-view.scss'
 
-export class MainView extends React.Component {
-  constructor(){
+export default class MainView extends React.Component {
+
+  constructor() {
     super();
     // Initial state is set to null
     this.state = {
       dramas: [],
-      genres: [],
       user: null
-    };
+    }
+    this.getUser = this.getUser.bind(this)
   }
 
   getDramas(token) {
     axios.get('https://mykdrama-api.herokuapp.com/korean-dramas', {
-      headers: {Authorization: `Bearer ${token}`}
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        //Asign the result to the state
+        this.setState({
+          dramas: response.data
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  getUser() {
+    const username = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    axios.get(`https://mykdrama-api.herokuapp.com/users/${username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     })
-    .then(response => {
-      //Asign the result to the state
+    .then((response) => {
       this.setState({
-        dramas: response.data
+        name: response.data.Name,
+        username: response.data.Username,
+        password: response.data.Password,
+        email: response.data.Email,
+        birthday: response.data.Birthday,
+        favdramas: response.data.FavDramas
       });
     })
-    .catch(function (error) {
+    .catch(function(error) {
       console.log(error);
     });
   }
 
-  getGenres(token) {
-    axios.get('https://mykdrama-api.herokuapp.com/genres/:name', {
-      headers: {Authorization: `Bearer ${token}`}
-    })
-    .then(response => {
-      //Asign the result to the state
-      this.setState({
-        genres: response.data
-      });
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  componentDidMount(){
+  componentDidMount() {
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
       this.setState({
-        user:localStorage.getItem('user')
+        user: localStorage.getItem('user')
       });
       this.getDramas(accessToken);
-      this.getGenres(accessToken);
     }
   }
 
-  /* When a user successfully logs in, this function updates the 
-  'user' property in state tot that 'particular user' */
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
@@ -77,108 +85,90 @@ export class MainView extends React.Component {
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getDramas(authData.token);
-    this.getGenres(authData.token);
   }
 
   render() {
-      const {dramas, genres, user} = this.state;
+    const {dramas, user, username, password, email, birthday, favdramas} = this.state;
 
-      return (
-        <Router>
-          <Route path='/' render={() => {
-            if (user) return <Col className="mynavbar">
-              <Navbar user={user} />
-            </Col>
-          }} />
-          
-          <Container className="main-view-container">
-            <Row className="main-view justify-content-md-center">
-              <Route exact path="/" render={() => {
-                if (!user) return <Col>
-                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                </Col>
-                
-                // Before the movies have been loaded
-                if (dramas.length === 0) return <div className="main-view" />;
+    return (
+      <Router>
+        <>
+          <Row>
+            <Route path='/' render={() => {
+              return <Col className="main-view-navbar">
+                <Navbar user={user} />
+              </Col>
+            }} />
+          </Row>
 
-                return dramas.map(d =>(
-                  <Col md={3} key={d._id}>
-                    <DramaCard drama={d} />
-                  </Col>
-                ))
-              }} />
-
-              <Route path="/register" render={() => {
-                if (user) return <Redirect to="/" />
+          <Row className="main-view-row justify-content-md-center mt-5"> 
+            <Route path="/register" render={() => {
+              if (user) return <Redirect to="/" />
                 return <Col>
                   <RegistrationView />
                 </Col>
-              }} />
+            }} />
 
-              <Route path="/korean-dramas/:dramaId" render={({match, history}) => {
-                if (!user) return <Col>
-                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                </Col>
+            <Route exact path="/" render={() => {
+              if (!user) return <Col>
+                <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+              </Col>
+                
+              if (dramas.length === 0) return <div className="main-view" />;
+                return dramas.map(d =>(
+                  <Col xs={12} md={6} lg={4} xl={3} xxl={2} key={d._id} className="mb-5 main-view-col">
+                    <DramaCard drama={d} />
+                  </Col>
+                ))
+            }} />
 
-                // Before the movies have been loaded
-                if (dramas.length === 0) return <div className="main-view" />;
+            <Route path="/korean-dramas/:dramaId" render={({match, history}) => {
+              if (!user) return <Col>
+                <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+              </Col>
 
+              if (dramas.length === 0) return <div className="main-view" />;
                 return <Col md={8}>
                   <DramaView drama={dramas.find(m => m._id === match.params.dramaId)} onBackClick={() => history.goBack()} />
                 </Col>
-              }} />
+            }} />
 
-              <Route path="/directors/:name" render={({match, history}) => {
-                if (!user) return <Col>
-                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                </Col>
+            <Route path="/directors/:name" render={({match, history}) => {
+              if (!user) return <Col>
+                <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+              </Col>
 
-                // Before the movies have been loaded
-                if (dramas.length === 0) return <div className="main-view" />;
-                
+              if (dramas.length === 0) return <div className="main-view" />;
                 return <Col md={8}>
                   <DirectorView director={dramas.find(d => d.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()} />
                 </Col>
-              }} />
+            }} />
 
-              <Route exact path="/genres/:name" render={({match, history}) => {
-                if (!user) return <Col>
-                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                </Col>
-
-                // Before the movies have been loaded
-                if (dramas.length === 0) return <div className="main-view" />;
-              
-                return <Col md={8}>
-                  <GenreView genre={genres.find(g => g.Name === match.params.name)} onBackClick={() => history.goBack()} />
-                </Col>
-              }} />
-              
-              {/* route for link on main-view to profile-view */}
-              <Route path="/users/:username" render={({match, history}) => {
-                if (!user) return <Col>
+            <Route path="/genres/:name" render={({match, history}) => {
+              if (!user) return <Col>
                 <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                </Col>
+              </Col>
 
-                // Before the movies have been loaded
-                if (dramas.length === 0) return <div className="main-view" />; 
-                
-                return <Col>
-                  <ProfileView user={user.find(u => u.username === match.params.username).Genre} onBackClick={() => history.goBack()} />
+              if (dramas.length === 0) return <div className="main-view" />;
+                return <Col md={8}>
+                  <GenreView genre={dramas.find(g => g.Genre.Name === match.params.name).Genre}  onBackClick={() => history.goBack()} />
                 </Col>
-              }} />
+            }} />
+             
+            <Route path="/users/:username" render={({history}) => {
+              if (!user) return <Col>
+                <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+              </Col>
 
-              <Route path="/user-update/:username" render={({match, history}) => {
-                if (!user) return <Redirect to="/" />
+              if (dramas.length === 0) return <div className="main-view" />; 
                 return <Col>
-                  <UserUpdate user={user.find(u => u.username === match.params.username).Genre} onBackClick={() => history.goBack()} />
+                  <ProfileView getUser={this.getUser} username={username} birthday={birthday} password={password} email={email} favdramas={favdramas} drama={dramas} onBackClick={() => history.goBack()} removeDrama={(_id) => this.onRemoveFavorite(_id)} />
                 </Col>
-              }} />
-            </Row>
-          </Container>
-        </Router>
-      );
+            }} />
+
+          </Row>
+        </>
+      </Router>
+    );
   }
 }
-
-export default MainView;
