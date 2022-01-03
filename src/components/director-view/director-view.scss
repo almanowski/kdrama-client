@@ -1,0 +1,9 @@
+.director-view-row {
+  padding-left: 15px !important;
+}
+
+@media (min-width: 768px){
+  .director-view-row {
+    padding-left: 0 !important;
+  }
+}
