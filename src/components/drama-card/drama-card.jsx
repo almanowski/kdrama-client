@@ -10,8 +10,8 @@ export class DramaCard extends React.Component {
     const {drama} = this.props;
 
     return (
-      <Card> 
-        <Card.Img variant="top" src={drama.ImagePath} crossOrigin ="anonymous" alt="Korean drama poster" style={{width:'15.85rem'}} />
+      <Card style={{ width: '16.5rem' }}> 
+        <Card.Img variant="top" src={drama.ImagePath} crossOrigin ="anonymous" alt="Korean drama poster" />
         <Card.Body>
           <Card.Title className="mb-3">{drama.Title}</Card.Title>
           <Card.Text className="mb-3">{drama.Description}</Card.Text>
