@@ -43,6 +43,23 @@ export default class MainView extends React.Component {
       });
   }
 
+  getGenres(token) {
+    axios.get('https://mykdrama-api.herokuapp.com/genres', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        //Asign the result to the state
+        this.setState({
+          genres: response.data
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
   getUser() {
     const username = localStorage.getItem('user');
     const token = localStorage.getItem('token');
@@ -73,11 +90,11 @@ export default class MainView extends React.Component {
         user: localStorage.getItem('user')
       });
       this.getDramas(accessToken);
+      this.getGenres(accessToken);
     }
   }
 
   onLoggedIn(authData) {
-    console.log(authData);
     this.setState({
       user: authData.user.Username
     });
@@ -85,10 +102,12 @@ export default class MainView extends React.Component {
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getDramas(authData.token);
+    this.getGenres(authData.token);
   }
+  
 
   render() {
-    const {dramas, user, username, password, email, birthday, favdramas} = this.state;
+    const {dramas, user, username, password, email, birthday, favdramas, genres} = this.state;
 
     return (
       <Router>
@@ -129,7 +148,7 @@ export default class MainView extends React.Component {
 
               if (dramas.length === 0) return <div className="main-view" />;
                 return <Col md={8}>
-                  <DramaView drama={dramas.find(m => m._id === match.params.dramaId)} onBackClick={() => history.goBack()} />
+                  <DramaView drama={dramas.find(m => m._id === match.params.dramaId)} favdramas={favdramas} getUser={this.getUser} onBackClick={() => history.goBack()} />
                 </Col>
             }} />
 
@@ -151,7 +170,7 @@ export default class MainView extends React.Component {
 
               if (dramas.length === 0) return <div className="main-view" />;
                 return <Col md={8}>
-                  <GenreView genre={dramas.find(g => g.Genre.Name === match.params.name).Genre}  onBackClick={() => history.goBack()} />
+                  <GenreView genre={genres.find(g => g.Name === match.params.name)} onBackClick={() => history.goBack()} />
                 </Col>
             }} />
              
@@ -162,7 +181,7 @@ export default class MainView extends React.Component {
 
               if (dramas.length === 0) return <div className="main-view" />; 
                 return <Col>
-                  <ProfileView getUser={this.getUser} username={username} birthday={birthday} password={password} email={email} favdramas={favdramas} drama={dramas} onBackClick={() => history.goBack()} removeDrama={(_id) => this.onRemoveFavorite(_id)} />
+                  <ProfileView getUser={this.getUser} username={username} birthday={birthday} password={password} email={email} favdramas={favdramas} drama={dramas} />
                 </Col>
             }} />
 
