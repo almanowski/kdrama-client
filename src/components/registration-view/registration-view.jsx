@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {Form, Button, Card, Row, Col} from 'react-bootstrap'
-/* import {Link} from 'react-router-dom'; */
 
 import './registration-view.scss'
 
