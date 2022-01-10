@@ -11,8 +11,12 @@ export class DramaView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      genre: [],
+      genre: []
     };
+  }
+  
+  componentDidMount() {
+    this.props.getUser()
   }
 
   addFav() {
@@ -26,16 +30,33 @@ export class DramaView extends React.Component {
     })
     .then(response => {
       alert(this.props.drama.Title + ' was added to your favourite dramas.');
+      window.location.reload();
     })
     .catch(function (error) {
       console.log(error);
     })
-    
+  } 
+
+  removeFav = (drama) => {
+    const username = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+
+    axios.delete(`https://mykdrama-api.herokuapp.com/users/${username}/favs/${drama._id}`, { 
+      headers: { 
+        Authorization: `Bearer ${token}` 
+      } 
+    })
+    .then((response) => {
+      this.componentDidMount();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   render() {
-    const { drama, onBackClick } = this.props;
-    console.log(drama)
+    const { drama, favdramas, onBackClick } = this.props;
+    /* const isFavorite = favdramas.some(d => d === drama._id) */
 
     return (
       <Container>
@@ -88,7 +109,11 @@ export class DramaView extends React.Component {
                 </div>
               </Row>
               <Row>
-                <Button value={drama._id} onClick={(e) => this.addFav(e, drama)} className="label">Add Drama</Button>
+                <Button value={drama._id} onClick={(e) => this.addFav(e, drama)} className="label">Add Favorite</Button>
+                {/* {isFavorite ? 
+                <Button className="label" variant="outline-secondary" value={drama._id} onClick={() => this.removeFav(drama)}>Remove Favorite</Button> :
+                <Button value={drama._id} onClick={(e) => this.addFav(e, drama)} className="label">Add Favorite</Button>
+                } */}
               </Row>
             </Col>
             
