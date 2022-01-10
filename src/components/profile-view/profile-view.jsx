@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Container, Col, Row, Form, Button, Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import './profile-view.scss';
+import UpdateProfile from './update-profile';
 
 
 
@@ -11,7 +12,7 @@ export class ProfileView extends React.Component {
     super(props);
     this.state = {
       username: null,
-      password: null ,
+      password: null,
       email: null,
       birthday: null,
       favdramas: [],
@@ -23,7 +24,7 @@ export class ProfileView extends React.Component {
     this.props.getUser()
   }
   
-  
+
 
   removeFav = (drama) => {
     const username = localStorage.getItem('user');
@@ -64,62 +65,14 @@ export class ProfileView extends React.Component {
     }  
   }
 
-  editUser(e) {
-    e.preventDefault();
-    const username = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
-
-    axios.put(`https://mykdrama-api.herokuapp.com/users/${username}`, {
-      Username: this.state.Username,
-      Password: this.state.Password,
-      Email: this.state.Email,
-      Birthday: this.state.Birthday
-    }, { 
-      headers: { 
-        Authorization: `Bearer ${token}` 
-      }
-    })
-    .then((response) => {
-      this.setState({
-        Username: response.data.Username,
-        Password: response.data.Password,
-        Email: response.data.Email,
-        Birthday: response.data.Birthday
-      });
-      localStorage.setItem('user', response.data.Username);
-      alert('Your profile has been updated.');
-      window.location.reload();
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
-
-  setUsername(value) {
-    this.state.Username = value;
-  }
-
-  setPassword(value) {
-    this.state.Password = value;
-  }
-
-  setEmail(value) {
-    this.state.Email = value;
-  }
-
-  setBirthday(value) {
-    this.state.Birthday = value;
-  }
-
 
   render() {
-    const {username, email, favdramas, drama} = this.props
-    consonle.log(drama)
+    const {username, favdramas, drama, email} = this.props
 
     return(
       <Container>
         <Row>
-          <Col xs={12} xl={2}>
+          <Col xs={12} xl={10}>
             <h1>{username}</h1>
           </Col>
 
@@ -127,37 +80,15 @@ export class ProfileView extends React.Component {
             <Button type="submit" variant="outline-secondary" onClick={() => this.deleteUser()} >Delete Account</Button>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <p className="email">{email}</p>
+          </Col>
+        </Row>
 
-
-        <Row  className="mt-5">
+        <Row  className="mt-4">
           <Col xs={12} xl={4} className="mr-5 mb-5">
-            <Form className="formDisplay" onSubmit={(e) => this.editUser(e)}>
-
-              <h4>Edit Profile</h4>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Username</Form.Label>
-                <Form.Control type='text' name="Username" placeholder={username} onChange={(e) => this.setUsername(e.target.value)} required />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type='password' name="Password" placeholder="*******" onChange={(e) => this.setPassword(e.target.value)} required />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type='email' name="Email" placeholder={email} onChange={(e) => this.setEmail(e.target.value)} required />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Birthday</Form.Label>
-                <Form.Control type='date' name="Birthday" onChange={(e) => this.setBirthday(e.target.value)} />
-              </Form.Group>
-                
-                <Button type="submit">Update</Button>
-
-            </Form>
+            <UpdateProfile />
           </Col>
 
           <Col>
