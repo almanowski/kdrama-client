@@ -160,6 +160,10 @@
   background-color: #07004d;
 }
 
+.logo {
+  height: 50px;
+}
+
 .nav-link {
   color: #fff !important;
 }
