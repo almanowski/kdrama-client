@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {Container, Col, Row, Form, Button, Card} from 'react-bootstrap';
+import {Container, Col, Row, Button, Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import './profile-view.scss';
 import UpdateProfile from './update-profile';
@@ -12,19 +12,35 @@ export class ProfileView extends React.Component {
     super(props);
     this.state = {
       username: null,
-      password: null,
       email: null,
-      birthday: null,
       favdramas: [],
     };
   }
 
-
   componentDidMount() {
-    this.props.getUser()
+    const token = localStorage.getItem('token');
+    this.getUser(token);
   }
-  
 
+  getUser(token) {
+    const username = localStorage.getItem('user');
+
+    axios.get(`https://mykdrama-api.herokuapp.com/users/${username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(response => {
+      this.setState({
+        username: response.data.Username,
+        email: response.data.Email,
+        favdramas: response.data.FavDramas
+      });
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  }
 
   removeFav = (drama) => {
     const username = localStorage.getItem('user');
@@ -67,7 +83,8 @@ export class ProfileView extends React.Component {
 
 
   render() {
-    const {username, favdramas, drama, email} = this.props
+    const {drama} = this.props
+    const {username, email, favdramas} = this.state
 
     return(
       <Container>

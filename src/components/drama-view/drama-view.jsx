@@ -11,13 +11,34 @@ export class DramaView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      genre: []
+      genre: [],
+      favdramas: []
     };
   }
-  
+
   componentDidMount() {
-    this.props.getUser()
+    const token = localStorage.getItem('token');
+    this.getUser(token);
   }
+
+  getUser(token) {
+    const username = localStorage.getItem('user');
+
+    axios.get(`https://mykdrama-api.herokuapp.com/users/${username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(response => {
+      this.setState({
+        favdramas: response.data.FavDramas
+      });
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  }
+  
 
   addFav() {
     const token = localStorage.getItem('token');
@@ -29,7 +50,6 @@ export class DramaView extends React.Component {
       }, method: 'POST'
     })
     .then(response => {
-      alert(this.props.drama.Title + ' was added to your favourite dramas.');
       window.location.reload();
     })
     .catch(function (error) {
@@ -55,8 +75,9 @@ export class DramaView extends React.Component {
   }
 
   render() {
-    const { drama, favdramas, onBackClick } = this.props;
-    /* const isFavorite = favdramas.some(d => d === drama._id) */
+    const {drama, onBackClick} = this.props;
+    const {favdramas} = this.state;
+    const isFavorite = favdramas.some(d => d === drama._id)
 
     return (
       <Container>
@@ -109,11 +130,10 @@ export class DramaView extends React.Component {
                 </div>
               </Row>
               <Row>
-                <Button value={drama._id} onClick={(e) => this.addFav(e, drama)} className="label">Add Favorite</Button>
-                {/* {isFavorite ? 
+                {isFavorite ? 
                 <Button className="label" variant="outline-secondary" value={drama._id} onClick={() => this.removeFav(drama)}>Remove Favorite</Button> :
                 <Button value={drama._id} onClick={(e) => this.addFav(e, drama)} className="label">Add Favorite</Button>
-                } */}
+                }
               </Row>
             </Col>
             
