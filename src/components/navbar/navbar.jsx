@@ -17,7 +17,7 @@ export function Navbar() {
       <Navbar className="main-nav" sticky="top" expand="lg" variant="dark">
         <Container className="nav-container">
           <Navbar.Brand href="/" className="navbar-brand">
-            <img className="d-inline-block align-top" alt="myDramas" src={"https://dl.dropboxusercontent.com/s/j8gnxagz3ia496k/logo.svg?dl=0"} crossOrigin ="anonymous" height="50" />{' '}
+            <img className="d-inline-block align-top logo" alt="myDramas" src={"https://dl.dropboxusercontent.com/s/j8gnxagz3ia496k/logo.svg?dl=0"} crossOrigin ="anonymous"  />{' '}
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
