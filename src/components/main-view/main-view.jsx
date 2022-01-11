@@ -22,8 +22,7 @@ export default class MainView extends React.Component {
     this.state = {
       dramas: [],
       user: null
-    }
-    this.getUser = this.getUser.bind(this)
+    };
   }
 
   getDramas(token) {
@@ -60,29 +59,6 @@ export default class MainView extends React.Component {
       });
   }
 
-  getUser() {
-    const username = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
-    axios.get(`https://mykdrama-api.herokuapp.com/users/${username}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then((response) => {
-      this.setState({
-        name: response.data.Name,
-        username: response.data.Username,
-        password: response.data.Password,
-        email: response.data.Email,
-        birthday: response.data.Birthday,
-        favdramas: response.data.FavDramas
-      });
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-  }
-
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
@@ -107,7 +83,7 @@ export default class MainView extends React.Component {
   
 
   render() {
-    const {dramas, user, username, password, email, birthday, favdramas, genres} = this.state;
+    const {dramas, user, genres} = this.state;
 
     return (
       <Router>
@@ -148,7 +124,7 @@ export default class MainView extends React.Component {
 
               if (dramas.length === 0) return <div className="main-view" />;
                 return <Col md={8}>
-                  <DramaView drama={dramas.find(m => m._id === match.params.dramaId)} favdramas={favdramas} getUser={this.getUser} onBackClick={() => history.goBack()} />
+                  <DramaView drama={dramas.find(m => m._id === match.params.dramaId)} onBackClick={() => history.goBack()} />
                 </Col>
             }} />
 
@@ -181,7 +157,7 @@ export default class MainView extends React.Component {
 
               if (dramas.length === 0) return <div className="main-view" />; 
                 return <Col>
-                  <ProfileView getUser={this.getUser} username={username} birthday={birthday} password={password} email={email} favdramas={favdramas} drama={dramas} />
+                  <ProfileView drama={dramas} />
                 </Col>
             }} />
 
