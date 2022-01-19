@@ -85,7 +85,7 @@ class MainView extends React.Component {
             }} />
           </Row>
 
-          <Row className="main-view-row justify-content-md-center mt-5"> 
+          <Row className="main-view-row justify-content-md-center mt-2"> 
             <Route path="/register" render={() => {
               if (user) return <Redirect to="/" />
                 return <Col>
