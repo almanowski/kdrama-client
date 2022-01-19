@@ -1,11 +1,9 @@
 import React from 'react';
-/* import {useParams} from 'react-router-dom'; */
 import {Container, Col, Row} from 'react-bootstrap';
 import {ArrowLeftCircle} from 'react-bootstrap-icons';
 
 export function GenreView(props) {
   const {genre, onBackClick} = props;
-  /* const {genreName} = useParams(); */
 
   return (
     <Container>
