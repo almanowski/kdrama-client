@@ -24,31 +24,6 @@
   padding: 1.25rem 1.25rem 0rem !important;
   box-shadow: 1px 1px 15px 1px rgba(93, 253, 203, 0.5);
 }
-.card {
-  height: 100%;
-}
-
-.card-img-top {
-  width: 14rem;
-  height: 22rem;
-  align-self: center;
-}
-
-.card-text {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-@supports (display: -webkit-box) {
-  .card-text {
-    /* autoprefixer: off */
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    white-space: normal;
-  }
-}
 .drama-view {
   margin-top: -20px !important;
 }
@@ -199,6 +174,45 @@
   .director-view-row {
     padding-left: 0 !important;
   }
+}
+.card {
+  height: 100%;
+}
+
+.card-img-top {
+  width: 14rem;
+  height: 22rem;
+  align-self: center;
+}
+
+.card-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@supports (display: -webkit-box) {
+  .card-text {
+    /* autoprefixer: off */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    white-space: normal;
+  }
+}
+.drama-search {
+  border-top-style: none !important;
+  border-right-style: none !important;
+  border-left-style: none !important;
+  border-radius: 0 !important;
+}
+
+.drama-search:focus {
+  border-top-style: none !important;
+  border-right-style: none !important;
+  border-left-style: none !important;
+  border-color: #5dfdcb !important;
+  box-shadow: 0 4px 3px 0 rgba(93, 253, 203, 0.25) !important;
 }
 html,
 body {
