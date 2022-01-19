@@ -1,12 +1,16 @@
 import React from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 import {Col, Row} from 'react-bootstrap';
+
+import {setDramas, setGenres, setUser} from '../../actions/actions';
+import DramasList from '../dramas-list/dramas-list';
+
 
 import {RegistrationView} from '../registration-view/registration-view';
 import {LoginView} from '../login-view/login-view';
 import {Navbar} from '../navbar/navbar';
-import {DramaCard} from '../drama-card/drama-card';
 import {DramaView} from '../drama-view/drama-view';
 import {DirectorView} from '../director-view/director-view';
 import {GenreView} from '../genre-view/genre-view';
@@ -14,15 +18,20 @@ import {ProfileView} from '../profile-view/profile-view';
 
 import './main-view.scss'
 
-export default class MainView extends React.Component {
+class MainView extends React.Component {
 
   constructor() {
     super();
-    // Initial state is set to null
-    this.state = {
-      dramas: [],
-      user: null
-    };
+  }
+
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    let user = localStorage.getItem('user')
+    if (accessToken !== null) {
+      this.props.setUser(user)
+      this.getDramas(accessToken);
+      this.getGenres(accessToken);
+    }
   }
 
   getDramas(token) {
@@ -32,10 +41,7 @@ export default class MainView extends React.Component {
         }
       })
       .then(response => {
-        //Asign the result to the state
-        this.setState({
-          dramas: response.data
-        });
+        this.props.setDramas(response.data);
       })
       .catch(function(error) {
         console.log(error);
@@ -49,32 +55,15 @@ export default class MainView extends React.Component {
         }
       })
       .then(response => {
-        //Asign the result to the state
-        this.setState({
-          genres: response.data
-        });
+        this.props.setGenres(response.data);
       })
       .catch(function(error) {
         console.log(error);
       });
   }
 
-  componentDidMount() {
-    let accessToken = localStorage.getItem('token');
-    if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem('user')
-      });
-      this.getDramas(accessToken);
-      this.getGenres(accessToken);
-    }
-  }
-
   onLoggedIn(authData) {
-    this.setState({
-      user: authData.user.Username
-    });
-
+    this.props.setUser(authData.user.Username)
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getDramas(authData.token);
@@ -83,7 +72,7 @@ export default class MainView extends React.Component {
   
 
   render() {
-    const {dramas, user, genres} = this.state;
+    const {dramas, genres, user} = this.props;
 
     return (
       <Router>
@@ -110,11 +99,7 @@ export default class MainView extends React.Component {
               </Col>
                 
               if (dramas.length === 0) return <div className="main-view" />;
-                return dramas.map(d =>(
-                  <Col xs={12} md={6} lg={4} xl={3} xxl={2} key={d._id} className="mb-5 main-view-col">
-                    <DramaCard drama={d} />
-                  </Col>
-                ))
+                return <DramasList dramas={dramas} />
             }} />
 
             <Route path="/korean-dramas/:dramaId" render={({match, history}) => {
@@ -167,3 +152,10 @@ export default class MainView extends React.Component {
     );
   }
 }
+
+let mapStateToProps = state => {
+  const {dramas, genres, user} = state;
+  return {dramas, genres, user};
+}
+
+export default connect(mapStateToProps, {setDramas, setGenres, setUser} )(MainView);
