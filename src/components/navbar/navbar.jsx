@@ -6,7 +6,7 @@ import './navbar.scss'
 export function NavbarView() {
   const user = localStorage.getItem('user');
 
-  onLoggedOut = () => {
+  const onLoggedOut = () => {
     localStorage.clear();
     window.open('/', '_self');
   }
@@ -28,7 +28,7 @@ export function NavbarView() {
             <Nav className="ml-auto mr-4">
               <NavDropdown title={user} id="basic-nav-dropdown">
               <NavDropdown.Item href={`/users/${user}`}>Profil</NavDropdown.Item>
-              <NavDropdown.Item onClick={() => {this.onLoggedOut() }}>Logout</NavDropdown.Item>
+              <NavDropdown.Item onClick={onLoggedOut}>Logout</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
