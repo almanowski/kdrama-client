@@ -10,7 +10,7 @@ import DramasList from '../dramas-list/dramas-list';
 
 import {RegistrationView} from '../registration-view/registration-view';
 import {LoginView} from '../login-view/login-view';
-import {Navbar} from '../navbar/navbar';
+import {NavbarView} from '../navbar/navbar';
 import {DramaView} from '../drama-view/drama-view';
 import {DirectorView} from '../director-view/director-view';
 import {GenreView} from '../genre-view/genre-view';
@@ -80,7 +80,7 @@ class MainView extends React.Component {
           <Row>
             <Route path='/' render={() => {
               return <Col className="main-view-navbar">
-                <Navbar user={user} />
+                <NavbarView user={user} />
               </Col>
             }} />
           </Row>
