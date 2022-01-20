@@ -1,6 +1,9 @@
 # React App (kDrama App)
+![Badge](https://img.shields.io/badge/demo-online-green)
 
 Creating this App is part of my [CF Full-Stack Web Development Programm](https://careerfoundry.com/en/courses/become-a-web-developer/).
+
+Live Demo [here](https://mydrama.netlify.app/).
 
 <p>&nbsp;</p>
 
