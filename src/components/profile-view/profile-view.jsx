@@ -89,18 +89,18 @@ export class ProfileView extends React.Component {
     return(
       <Container>
         <Row>
-          <Col xs={12} xl={10}>
+          <Col md={12}>
             <h1>{username}</h1>
           </Col>
 
-          <Col className="delete-user-button">
-            <Button type="submit" variant="outline-secondary" onClick={() => this.deleteUser()} >Delete Account</Button>
-          </Col>
-        </Row>
-        <Row>
           <Col>
             <p className="email">{email}</p>
           </Col>
+        </Row>
+        <Row className="mb-5">
+        <Col className="delete-user-button" xl={2}>
+            <Button type="submit" variant="outline-secondary" onClick={() => this.deleteUser()} >Delete Account</Button>
+          </Col>          
         </Row>
 
         <Row  className="mt-4">
@@ -118,15 +118,15 @@ export class ProfileView extends React.Component {
               {favdramas && drama.map((drama) => {
                 if ( drama._id === favdramas.find((fav) => fav === drama._id)) {
                   return (
-                    <Col key={drama._id} className="favDrama mb-5">
+                    <Col key={drama._id} className="fav-drama mb-5">
 
                       <Card style={{ width: '16.5rem' }}> 
 
-                        <Card.Img variant="top" src={drama.ImagePath} crossOrigin ="anonymous" alt="Korean drama poster" className="favDramaImg" />
+                        <Card.Img variant="top" src={drama.ImagePath} crossOrigin ="anonymous" alt="Korean drama poster" className="fav-drama-img" />
                         
                         <Card.Body>
 
-                          <Card.Title className="favDramaTitle">
+                          <Card.Title className="fav-drama-title">
                             {drama.Title}
                           </Card.Title>
 

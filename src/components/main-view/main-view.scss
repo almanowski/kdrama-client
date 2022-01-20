@@ -1,3 +1,7 @@
+.h5 {
+  font-size: 1.2rem !important;
+}
+
 .main-view-container {
   margin: 20px 50px !important;
 }
@@ -37,7 +41,6 @@
   }
 }
 
-
 @media (min-width: 992px){
   .main-view-col {
     padding-left: 30px !important;
@@ -46,16 +49,8 @@
 
 
 @media (min-width: 1300px) {
-  /*   .main-view-row {
-        margin-left: 48px;
-    } */
     .main-view-col {
       padding-left: 55px !important;
     }
   }
 
-
-
-.h5 {
-  font-size: 1.2rem !important;
-}

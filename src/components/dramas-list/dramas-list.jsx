@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input';
 import {DramaCard} from '../drama-card/drama-card';
 
+import './drama-list.scss'
+
 const mapStateToProps = state => {
   const {visibilityFilter} = state;
   return {visibilityFilter};
@@ -21,7 +23,7 @@ function DramasList(props) {
   if(!dramas) return <div className="main-view" />;
 
   return <>
-    <Col md={12} style={{margin: '1em'}}>
+    <Col md={12} className="filter-col">
       <VisibilityFilterInput visibilityFilter={visibilityFilter} />
      </Col>
     {filteredDramas.map(d => (
