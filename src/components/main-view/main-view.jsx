@@ -5,9 +5,8 @@ import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 import {Col, Row} from 'react-bootstrap';
 
 import {setDramas, setGenres, setUser} from '../../actions/actions';
+
 import DramasList from '../dramas-list/dramas-list';
-
-
 import {RegistrationView} from '../registration-view/registration-view';
 import {LoginView} from '../login-view/login-view';
 import {NavbarView} from '../navbar/navbar';
@@ -28,7 +27,7 @@ class MainView extends React.Component {
     let accessToken = localStorage.getItem('token');
     let user = localStorage.getItem('user')
     if (accessToken !== null) {
-      this.props.setUser(user)
+      this.props.setUser(user);
       this.getDramas(accessToken);
       this.getGenres(accessToken);
     }
@@ -36,34 +35,34 @@ class MainView extends React.Component {
 
   getDramas(token) {
     axios.get('https://mykdrama-api.herokuapp.com/korean-dramas', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      .then(response => {
-        this.props.setDramas(response.data);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(response => {
+      this.props.setDramas(response.data);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
   }
 
   getGenres(token) {
     axios.get('https://mykdrama-api.herokuapp.com/genres', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      .then(response => {
-        this.props.setGenres(response.data);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(response => {
+      this.props.setGenres(response.data);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
   }
 
   onLoggedIn(authData) {
-    this.props.setUser(authData.user.Username)
+    this.props.setUser(authData.user.Username);
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getDramas(authData.token);
@@ -85,7 +84,7 @@ class MainView extends React.Component {
             }} />
           </Row>
 
-          <Row className="main-view-row justify-content-md-center mt-2"> 
+          <Row className="main-view-row justify-content-md-center mt-5"> 
             <Route path="/register" render={() => {
               if (user) return <Redirect to="/" />
                 return <Col>
@@ -108,7 +107,7 @@ class MainView extends React.Component {
               </Col>
 
               if (dramas.length === 0) return <div className="main-view" />;
-                return <Col md={8}>
+                return <Col md={9}>
                   <DramaView drama={dramas.find(m => m._id === match.params.dramaId)} onBackClick={() => history.goBack()} />
                 </Col>
             }} />
@@ -119,7 +118,7 @@ class MainView extends React.Component {
               </Col>
 
               if (dramas.length === 0) return <div className="main-view" />;
-                return <Col md={8}>
+                return <Col md={9}>
                   <DirectorView director={dramas.find(d => d.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()} />
                 </Col>
             }} />
@@ -130,7 +129,7 @@ class MainView extends React.Component {
               </Col>
 
               if (dramas.length === 0) return <div className="main-view" />;
-                return <Col md={8}>
+                return <Col md={9}>
                   <GenreView genre={genres.find(g => g.Name === match.params.name)} onBackClick={() => history.goBack()} />
                 </Col>
             }} />
@@ -145,7 +144,6 @@ class MainView extends React.Component {
                   <ProfileView drama={dramas} />
                 </Col>
             }} />
-
           </Row>
         </>
       </Router>

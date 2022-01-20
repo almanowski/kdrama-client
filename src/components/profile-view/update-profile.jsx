@@ -67,40 +67,37 @@ export default function UpdateProfile() {
   }
 
 
-
-
-
   return (
     <Form className="formDisplay" onSubmit={editUser} >
 
-    <h4>Edit Profile</h4>
+      <h4>Edit Profile</h4>
 
-    <Form.Group className="mb-3">
-      <Form.Label>Username</Form.Label>
-      <Form.Control type='text' name="Username" placeholder="New Username" onChange={e => setUsername(e.target.value)} />
-      {/* code added here to display validation error */}
-      {usernameErr && <p className="invalid">{usernameErr}</p>}
-    </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Username</Form.Label>
+        <Form.Control type='text' name="Username" placeholder="New Username" onChange={e => setUsername(e.target.value)} />
+        {/* code added here to display validation error */}
+        {usernameErr && <p className="invalid">{usernameErr}</p>}
+      </Form.Group>
 
-    <Form.Group className="mb-3">
-      <Form.Label>Password</Form.Label>
-      <Form.Control type='password' name="Password" placeholder="*******" onChange={e => setPassword(e.target.value)} />
-      {/* code added here to display validation error */}
-      {passwordErr && <p className="invalid">{passwordErr}</p>}
-    </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Password</Form.Label>
+        <Form.Control type='password' name="Password" placeholder="*******" onChange={e => setPassword(e.target.value)} />
+        {/* code added here to display validation error */}
+        {passwordErr && <p className="invalid">{passwordErr}</p>}
+      </Form.Group>
 
-    <Form.Group className="mb-3">
-      <Form.Label>Email</Form.Label>
-      <Form.Control type='email' name="Email" placeholder="New Email"  onChange={e => setEmail(e.target.value)} />
-      {/* code added here to display validation error */}
-      {emailErr && <p className="invalid">{emailErr}</p>}
-    </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Email</Form.Label>
+        <Form.Control type='email' name="Email" placeholder="New Email"  onChange={e => setEmail(e.target.value)} />
+        {/* code added here to display validation error */}
+        {emailErr && <p className="invalid">{emailErr}</p>}
+      </Form.Group>
 
-    <Form.Group className="mb-3">
-      <Form.Label>Birthday</Form.Label>
-      <Form.Control type='date' name="Birthday"  onChange={e => setBirthday(e.target.value)} />
-    </Form.Group>
-      
+      <Form.Group className="mb-3">
+        <Form.Label>Birthday</Form.Label>
+        <Form.Control type='date' name="Birthday"  onChange={e => setBirthday(e.target.value)} />
+      </Form.Group>
+        
       <Button type="submit">Update</Button>
 
   </Form>
