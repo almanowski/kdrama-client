@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Form, Button} from 'react-bootstrap'
+import {Form, Button} from 'react-bootstrap';
+import {connect} from 'react-redux';
 
-export default function UpdateProfile() {
+import {setUser} from '../../actions/actions';
+
+function UpdateProfile() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -56,7 +59,7 @@ export default function UpdateProfile() {
         }
       })
       .then(response => {
-        localStorage.setItem('user', response.data.Username);
+        localStorage.setItem('user', this.props.setUser(response.data));
         alert('Your profile has been updated.');
         window.location.reload();
       })
@@ -103,3 +106,10 @@ export default function UpdateProfile() {
   </Form>
   )
 }
+
+let mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+}
+
+export default connect(mapStateToProps, {setUser} )(UpdateProfile);

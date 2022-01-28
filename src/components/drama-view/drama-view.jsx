@@ -1,18 +1,20 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Container, Col, Row, Button} from 'react-bootstrap';
 import {ArrowLeftCircle} from 'react-bootstrap-icons';
 import {Link} from 'react-router-dom';
 
 import './drama-view.scss';
 
-export class DramaView extends React.Component {
+import {setUser} from '../../actions/actions';
+
+class DramaView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      genre: [],
-      favdramas: []
+      genre: []
     };
   }
 
@@ -30,9 +32,7 @@ export class DramaView extends React.Component {
       }
     })
     .then(response => {
-      this.setState({
-        favdramas: response.data.FavDramas
-      });
+      this.props.setUser(response.data);
     })
     .catch(function(error) {
       console.log(error);
@@ -75,9 +75,17 @@ export class DramaView extends React.Component {
   }
 
   render() {
-    const {drama, onBackClick} = this.props;
-    const {favdramas} = this.state;
-    const isFavorite = favdramas.some(d => d === drama._id)
+    const {drama, user, onBackClick} = this.props
+    const favdramas = user.FavDramas
+    console.log(favdramas)
+    let button
+    if (favdramas) {
+      const isFavorite = favdramas.some(d => d === drama._id)
+      {isFavorite ? 
+        button = <Button className="label" variant="outline-secondary" value={drama._id} onClick={() => this.removeFav(drama)}>Remove Favorite</Button> :
+        button = <Button value={drama._id} onClick={(e) => this.addFav(e, drama)} className="label">Add Favorite</Button>
+      }
+    }    
 
     return (
       <Container>
@@ -130,10 +138,7 @@ export class DramaView extends React.Component {
                 </div>
               </Row>
               <Row>
-                {isFavorite ? 
-                <Button className="label" variant="outline-secondary" value={drama._id} onClick={() => this.removeFav(drama)}>Remove Favorite</Button> :
-                <Button value={drama._id} onClick={(e) => this.addFav(e, drama)} className="label">Add Favorite</Button>
-                }
+                {button}
               </Row>
             </Col>
             
@@ -156,6 +161,13 @@ export class DramaView extends React.Component {
     );
   }
 };
+
+let mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+}
+
+export default connect(mapStateToProps, {setUser} )(DramaView);
 
 DramaView.propTypes = {
   drama: PropTypes.shape({

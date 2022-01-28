@@ -1,22 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import {Container, Col, Row, Button, Card} from 'react-bootstrap';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import './profile-view.scss';
 import UpdateProfile from './update-profile';
 
+import {setUser} from '../../actions/actions';
 
-
-export class ProfileView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: null,
-      email: null,
-      favdramas: [],
-    };
-  }
-
+class ProfileView extends React.Component {
+  
   componentDidMount() {
     const token = localStorage.getItem('token');
     this.getUser(token);
@@ -31,11 +24,7 @@ export class ProfileView extends React.Component {
       }
     })
     .then(response => {
-      this.setState({
-        username: response.data.Username,
-        email: response.data.Email,
-        favdramas: response.data.FavDramas
-      });
+      this.props.setUser(response.data);
     })
     .catch(function(error) {
       console.log(error);
@@ -83,18 +72,18 @@ export class ProfileView extends React.Component {
 
 
   render() {
-    const {drama} = this.props
-    const {username, email, favdramas} = this.state
+    const {drama, user} = this.props
+    const favdramas = user.FavDramas
 
     return(
       <Container>
         <Row>
           <Col md={12}>
-            <h1>{username}</h1>
+            <h1>{user.Username}</h1>
           </Col>
 
           <Col>
-            <p className="email">{email}</p>
+            <p className="email">{user.Email}</p>
           </Col>
         </Row>
         <Row className="mb-5">
@@ -154,3 +143,10 @@ export class ProfileView extends React.Component {
     )
   }  
 }
+
+let mapStateToProps = state => {
+  const {user} = state;
+  return {user};
+}
+
+export default connect(mapStateToProps, {setUser} )(ProfileView);
