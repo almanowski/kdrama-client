@@ -34974,9 +34974,11 @@ var _registrationView = require("../registration-view/registration-view");
 var _loginView = require("../login-view/login-view");
 var _navbar = require("../navbar/navbar");
 var _dramaView = require("../drama-view/drama-view");
+var _dramaViewDefault = parcelHelpers.interopDefault(_dramaView);
 var _directorView = require("../director-view/director-view");
 var _genreView = require("../genre-view/genre-view");
 var _profileView = require("../profile-view/profile-view");
+var _profileViewDefault = parcelHelpers.interopDefault(_profileView);
 var _mainViewScss = require("./main-view.scss");
 class MainView extends _reactDefault.default.Component {
     constructor(){
@@ -35099,7 +35101,7 @@ class MainView extends _reactDefault.default.Component {
                                     }, void 0, false, void 0, void 0));
                                     return(/*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
                                         md: 9,
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_dramaView.DramaView, {
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_dramaViewDefault.default, {
                                             drama: dramas.find((m)=>m._id === match.params.dramaId
                                             ),
                                             onBackClick: ()=>history.goBack()
@@ -35173,7 +35175,7 @@ class MainView extends _reactDefault.default.Component {
                                         className: "main-view"
                                     }, void 0, false, void 0, void 0));
                                     return(/*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_profileView.ProfileView, {
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_profileViewDefault.default, {
                                             drama: dramas
                                         }, void 0, false, void 0, void 0)
                                     }, void 0, false, void 0, void 0));
@@ -39061,7 +39063,7 @@ $RefreshReg$(_c, "DramasList");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap":"3AD9A","react-redux":"bdVon","../visibility-filter-input/visibility-filter-input":"gtTIg","../drama-card/drama-card":"zZROY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./drama-list.scss":"6sI5J"}],"gtTIg":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap":"3AD9A","react-redux":"bdVon","../visibility-filter-input/visibility-filter-input":"gtTIg","../drama-card/drama-card":"zZROY","./drama-list.scss":"6sI5J","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"gtTIg":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$dea5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -40030,8 +40032,6 @@ $parcel$ReactRefreshHelpers$61b8.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "DramaView", ()=>DramaView
-);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
@@ -40039,16 +40039,17 @@ var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _reactRedux = require("react-redux");
 var _reactBootstrap = require("react-bootstrap");
 var _reactBootstrapIcons = require("react-bootstrap-icons");
 var _reactRouterDom = require("react-router-dom");
 var _dramaViewScss = require("./drama-view.scss");
+var _actions = require("../../actions/actions");
 class DramaView extends _reactDefault.default.Component {
     constructor(props){
         super(props);
         this.state = {
-            genre: [],
-            favdramas: []
+            genre: []
         };
     }
     componentDidMount() {
@@ -40062,9 +40063,7 @@ class DramaView extends _reactDefault.default.Component {
                 Authorization: `Bearer ${token}`
             }
         }).then((response)=>{
-            this.setState({
-                favdramas: response.data.FavDramas
-            });
+            this.props.setUser(response.data);
         }).catch(function(error) {
             console.log(error);
         });
@@ -40098,10 +40097,36 @@ class DramaView extends _reactDefault.default.Component {
         });
     };
     render() {
-        const { drama , onBackClick  } = this.props;
-        const { favdramas  } = this.state;
-        const isFavorite = favdramas.some((d)=>d === drama._id
-        );
+        const { drama , user , onBackClick  } = this.props;
+        const favdramas = user.FavDramas;
+        console.log(favdramas);
+        let button;
+        if (favdramas) {
+            const isFavorite = favdramas.some((d)=>d === drama._id
+            );
+            isFavorite ? button = /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
+                className: "label",
+                variant: "outline-secondary",
+                value: drama._id,
+                onClick: ()=>this.removeFav(drama)
+                ,
+                children: "Remove Favorite"
+            }, void 0, false, {
+                fileName: "src/components/drama-view/drama-view.jsx",
+                lineNumber: 85,
+                columnNumber: 18
+            }, this) : button = /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
+                value: drama._id,
+                onClick: (e)=>this.addFav(e, drama)
+                ,
+                className: "label",
+                children: "Add Favorite"
+            }, void 0, false, {
+                fileName: "src/components/drama-view/drama-view.jsx",
+                lineNumber: 86,
+                columnNumber: 18
+            }, this);
+        }
         return(/*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Container, {
             children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
                 className: "drama-view",
@@ -40116,12 +40141,12 @@ class DramaView extends _reactDefault.default.Component {
                             size: 50
                         }, void 0, false, {
                             fileName: "src/components/drama-view/drama-view.jsx",
-                            lineNumber: 87,
+                            lineNumber: 95,
                             columnNumber: 15
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/drama-view/drama-view.jsx",
-                        lineNumber: 86,
+                        lineNumber: 94,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -40147,17 +40172,17 @@ class DramaView extends _reactDefault.default.Component {
                                                 children: drama.Title
                                             }, void 0, false, {
                                                 fileName: "src/components/drama-view/drama-view.jsx",
-                                                lineNumber: 95,
+                                                lineNumber: 103,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/drama-view/drama-view.jsx",
-                                            lineNumber: 94,
+                                            lineNumber: 102,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/drama-view/drama-view.jsx",
-                                        lineNumber: 93,
+                                        lineNumber: 101,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -40170,7 +40195,7 @@ class DramaView extends _reactDefault.default.Component {
                                                     children: "Episodes: "
                                                 }, void 0, false, {
                                                     fileName: "src/components/drama-view/drama-view.jsx",
-                                                    lineNumber: 100,
+                                                    lineNumber: 108,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV("span", {
@@ -40178,18 +40203,18 @@ class DramaView extends _reactDefault.default.Component {
                                                     children: drama.Episodes
                                                 }, void 0, false, {
                                                     fileName: "src/components/drama-view/drama-view.jsx",
-                                                    lineNumber: 101,
+                                                    lineNumber: 109,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/drama-view/drama-view.jsx",
-                                            lineNumber: 99,
+                                            lineNumber: 107,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/drama-view/drama-view.jsx",
-                                        lineNumber: 98,
+                                        lineNumber: 106,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -40202,7 +40227,7 @@ class DramaView extends _reactDefault.default.Component {
                                                     children: "Release Year: "
                                                 }, void 0, false, {
                                                     fileName: "src/components/drama-view/drama-view.jsx",
-                                                    lineNumber: 106,
+                                                    lineNumber: 114,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV("span", {
@@ -40210,18 +40235,18 @@ class DramaView extends _reactDefault.default.Component {
                                                     children: drama.ReleasYear
                                                 }, void 0, false, {
                                                     fileName: "src/components/drama-view/drama-view.jsx",
-                                                    lineNumber: 107,
+                                                    lineNumber: 115,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/drama-view/drama-view.jsx",
-                                            lineNumber: 105,
+                                            lineNumber: 113,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/drama-view/drama-view.jsx",
-                                        lineNumber: 104,
+                                        lineNumber: 112,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -40234,45 +40259,13 @@ class DramaView extends _reactDefault.default.Component {
                                                     children: "Director: "
                                                 }, void 0, false, {
                                                     fileName: "src/components/drama-view/drama-view.jsx",
-                                                    lineNumber: 112,
+                                                    lineNumber: 120,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Link, {
                                                     to: `/directors/${drama.Director.Name}`,
                                                     className: "value link",
                                                     children: drama.Director.Name
-                                                }, void 0, false, {
-                                                    fileName: "src/components/drama-view/drama-view.jsx",
-                                                    lineNumber: 113,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/components/drama-view/drama-view.jsx",
-                                            lineNumber: 111,
-                                            columnNumber: 17
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "src/components/drama-view/drama-view.jsx",
-                                        lineNumber: 110,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
-                                        className: "mb-4",
-                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
-                                            className: "drama-writer",
-                                            children: [
-                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV("span", {
-                                                    className: "label",
-                                                    children: "Writer: "
-                                                }, void 0, false, {
-                                                    fileName: "src/components/drama-view/drama-view.jsx",
-                                                    lineNumber: 120,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV("span", {
-                                                    className: "value",
-                                                    children: drama.Writer
                                                 }, void 0, false, {
                                                     fileName: "src/components/drama-view/drama-view.jsx",
                                                     lineNumber: 121,
@@ -40292,6 +40285,38 @@ class DramaView extends _reactDefault.default.Component {
                                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
                                         className: "mb-4",
                                         children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
+                                            className: "drama-writer",
+                                            children: [
+                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV("span", {
+                                                    className: "label",
+                                                    children: "Writer: "
+                                                }, void 0, false, {
+                                                    fileName: "src/components/drama-view/drama-view.jsx",
+                                                    lineNumber: 128,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ _jsxDevRuntime.jsxDEV("span", {
+                                                    className: "value",
+                                                    children: drama.Writer
+                                                }, void 0, false, {
+                                                    fileName: "src/components/drama-view/drama-view.jsx",
+                                                    lineNumber: 129,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/drama-view/drama-view.jsx",
+                                            lineNumber: 127,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/components/drama-view/drama-view.jsx",
+                                        lineNumber: 126,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
+                                        className: "mb-4",
+                                        children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV("div", {
                                             className: "drama-genre",
                                             children: [
                                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV("span", {
@@ -40299,7 +40324,7 @@ class DramaView extends _reactDefault.default.Component {
                                                     children: "Genre: "
                                                 }, void 0, false, {
                                                     fileName: "src/components/drama-view/drama-view.jsx",
-                                                    lineNumber: 126,
+                                                    lineNumber: 134,
                                                     columnNumber: 19
                                                 }, this),
                                                 drama.Genre.map((g)=>/*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Link, {
@@ -40308,7 +40333,7 @@ class DramaView extends _reactDefault.default.Component {
                                                         children: g.Name
                                                     }, g.Name, false, {
                                                         fileName: "src/components/drama-view/drama-view.jsx",
-                                                        lineNumber: 127,
+                                                        lineNumber: 135,
                                                         columnNumber: 44
                                                     }, this)
                                                 ).reduce((prev, curr)=>[
@@ -40320,46 +40345,25 @@ class DramaView extends _reactDefault.default.Component {
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/drama-view/drama-view.jsx",
-                                            lineNumber: 125,
-                                            columnNumber: 17
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "src/components/drama-view/drama-view.jsx",
-                                        lineNumber: 124,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
-                                        children: isFavorite ? /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
-                                            className: "label",
-                                            variant: "outline-secondary",
-                                            value: drama._id,
-                                            onClick: ()=>this.removeFav(drama)
-                                            ,
-                                            children: "Remove Favorite"
-                                        }, void 0, false, {
-                                            fileName: "src/components/drama-view/drama-view.jsx",
-                                            lineNumber: 134,
-                                            columnNumber: 17
-                                        }, this) : /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
-                                            value: drama._id,
-                                            onClick: (e)=>this.addFav(e, drama)
-                                            ,
-                                            className: "label",
-                                            children: "Add Favorite"
-                                        }, void 0, false, {
-                                            fileName: "src/components/drama-view/drama-view.jsx",
-                                            lineNumber: 135,
+                                            lineNumber: 133,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/drama-view/drama-view.jsx",
                                         lineNumber: 132,
                                         columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
+                                        children: button
+                                    }, void 0, false, {
+                                        fileName: "src/components/drama-view/drama-view.jsx",
+                                        lineNumber: 140,
+                                        columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/components/drama-view/drama-view.jsx",
-                                lineNumber: 92,
+                                lineNumber: 100,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
@@ -40381,23 +40385,23 @@ class DramaView extends _reactDefault.default.Component {
                                         className: "float-img"
                                     }, void 0, false, {
                                         fileName: "src/components/drama-view/drama-view.jsx",
-                                        lineNumber: 142,
+                                        lineNumber: 147,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/components/drama-view/drama-view.jsx",
-                                    lineNumber: 141,
+                                    lineNumber: 146,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/drama-view/drama-view.jsx",
-                                lineNumber: 140,
+                                lineNumber: 145,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/drama-view/drama-view.jsx",
-                        lineNumber: 90,
+                        lineNumber: 98,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -40409,32 +40413,41 @@ class DramaView extends _reactDefault.default.Component {
                                 children: drama.Description
                             }, void 0, false, {
                                 fileName: "src/components/drama-view/drama-view.jsx",
-                                lineNumber: 150,
+                                lineNumber: 155,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/drama-view/drama-view.jsx",
-                            lineNumber: 149,
+                            lineNumber: 154,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/drama-view/drama-view.jsx",
-                        lineNumber: 148,
+                        lineNumber: 153,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/drama-view/drama-view.jsx",
-                lineNumber: 84,
+                lineNumber: 92,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "src/components/drama-view/drama-view.jsx",
-            lineNumber: 83,
+            lineNumber: 91,
             columnNumber: 7
         }, this));
     }
 }
+let mapStateToProps = (state)=>{
+    const { user  } = state;
+    return {
+        user
+    };
+};
+exports.default = _reactRedux.connect(mapStateToProps, {
+    setUser: _actions.setUser
+})(DramaView);
 DramaView.propTypes = {
     drama: _propTypesDefault.default.shape({
         ImagePath: _propTypesDefault.default.string.isRequired,
@@ -40453,7 +40466,7 @@ DramaView.propTypes = {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","axios":"jo6P5","prop-types":"7wKI2","react-bootstrap":"3AD9A","react-bootstrap-icons":"c9Gza","react-router-dom":"cHIiW","./drama-view.scss":"6LMpH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"c9Gza":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","axios":"jo6P5","prop-types":"7wKI2","react-bootstrap":"3AD9A","react-bootstrap-icons":"c9Gza","react-router-dom":"cHIiW","./drama-view.scss":"6LMpH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react-redux":"bdVon","../../actions/actions":"biFwH"}],"c9Gza":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Icon123", ()=>_123Default.default
@@ -46855,27 +46868,19 @@ $parcel$ReactRefreshHelpers$3c12.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "ProfileView", ()=>ProfileView
-);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _reactBootstrap = require("react-bootstrap");
+var _reactRedux = require("react-redux");
 var _reactRouterDom = require("react-router-dom");
 var _profileViewScss = require("./profile-view.scss");
 var _updateProfile = require("./update-profile");
 var _updateProfileDefault = parcelHelpers.interopDefault(_updateProfile);
+var _actions = require("../../actions/actions");
 class ProfileView extends _reactDefault.default.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            username: null,
-            email: null,
-            favdramas: []
-        };
-    }
     componentDidMount() {
         const token = localStorage.getItem('token');
         this.getUser(token);
@@ -46887,11 +46892,7 @@ class ProfileView extends _reactDefault.default.Component {
                 Authorization: `Bearer ${token}`
             }
         }).then((response)=>{
-            this.setState({
-                username: response.data.Username,
-                email: response.data.Email,
-                favdramas: response.data.FavDramas
-            });
+            this.props.setUser(response.data);
         }).catch(function(error) {
             console.log(error);
         });
@@ -46928,8 +46929,8 @@ class ProfileView extends _reactDefault.default.Component {
         }
     }
     render() {
-        const { drama: drama1  } = this.props;
-        const { username , email , favdramas  } = this.state;
+        const { drama: drama1 , user  } = this.props;
+        const favdramas = user.FavDramas;
         return(/*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Container, {
             children: [
                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -46937,35 +46938,35 @@ class ProfileView extends _reactDefault.default.Component {
                         /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
                             md: 12,
                             children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV("h1", {
-                                children: username
+                                children: user.Username
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 93,
+                                lineNumber: 82,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 92,
+                            lineNumber: 81,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
                             children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV("p", {
                                 className: "email",
-                                children: email
+                                children: user.Email
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 97,
+                                lineNumber: 86,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 96,
+                            lineNumber: 85,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 91,
+                    lineNumber: 80,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -46981,17 +46982,17 @@ class ProfileView extends _reactDefault.default.Component {
                             children: "Delete Account"
                         }, void 0, false, {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 102,
+                            lineNumber: 91,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 101,
+                        lineNumber: 90,
                         columnNumber: 9
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 100,
+                    lineNumber: 89,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -47004,12 +47005,12 @@ class ProfileView extends _reactDefault.default.Component {
                             children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_updateProfileDefault.default, {
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 108,
+                                lineNumber: 97,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 107,
+                            lineNumber: 96,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Col, {
@@ -47024,17 +47025,17 @@ class ProfileView extends _reactDefault.default.Component {
                                             children: "Favourite Dramas"
                                         }, void 0, false, {
                                             fileName: "src/components/profile-view/profile-view.jsx",
-                                            lineNumber: 114,
+                                            lineNumber: 103,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/profile-view/profile-view.jsx",
-                                        lineNumber: 113,
+                                        lineNumber: 102,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/components/profile-view/profile-view.jsx",
-                                    lineNumber: 112,
+                                    lineNumber: 101,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Row, {
@@ -47055,7 +47056,7 @@ class ProfileView extends _reactDefault.default.Component {
                                                         className: "fav-drama-img"
                                                     }, void 0, false, {
                                                         fileName: "src/components/profile-view/profile-view.jsx",
-                                                        lineNumber: 125,
+                                                        lineNumber: 114,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Card.Body, {
@@ -47065,7 +47066,7 @@ class ProfileView extends _reactDefault.default.Component {
                                                                 children: drama.Title
                                                             }, void 0, false, {
                                                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                                                lineNumber: 129,
+                                                                lineNumber: 118,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
@@ -47076,7 +47077,7 @@ class ProfileView extends _reactDefault.default.Component {
                                                                 children: "Delete"
                                                             }, void 0, false, {
                                                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                                                lineNumber: 133,
+                                                                lineNumber: 122,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactRouterDom.Link, {
@@ -47087,64 +47088,73 @@ class ProfileView extends _reactDefault.default.Component {
                                                                     children: "Details"
                                                                 }, void 0, false, {
                                                                     fileName: "src/components/profile-view/profile-view.jsx",
-                                                                    lineNumber: 138,
+                                                                    lineNumber: 127,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                                                lineNumber: 137,
+                                                                lineNumber: 126,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/components/profile-view/profile-view.jsx",
-                                                        lineNumber: 127,
+                                                        lineNumber: 116,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                                lineNumber: 123,
+                                                lineNumber: 112,
                                                 columnNumber: 23
                                             }, this)
                                         }, drama._id, false, {
                                             fileName: "src/components/profile-view/profile-view.jsx",
-                                            lineNumber: 121,
+                                            lineNumber: 110,
                                             columnNumber: 21
                                         }, this));
                                     })
                                 }, void 0, false, {
                                     fileName: "src/components/profile-view/profile-view.jsx",
-                                    lineNumber: 117,
+                                    lineNumber: 106,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 111,
+                            lineNumber: 100,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 106,
+                    lineNumber: 95,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/components/profile-view/profile-view.jsx",
-            lineNumber: 90,
+            lineNumber: 79,
             columnNumber: 7
         }, this));
     }
 }
+let mapStateToProps = (state)=>{
+    const { user  } = state;
+    return {
+        user
+    };
+};
+exports.default = _reactRedux.connect(mapStateToProps, {
+    setUser: _actions.setUser
+})(ProfileView);
 
   $parcel$ReactRefreshHelpers$3c12.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","axios":"jo6P5","react-bootstrap":"3AD9A","react-router-dom":"cHIiW","./profile-view.scss":"eyKYH","./update-profile":"kDlg2","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"eyKYH":[function() {},{}],"kDlg2":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","axios":"jo6P5","react-bootstrap":"3AD9A","react-router-dom":"cHIiW","./profile-view.scss":"eyKYH","./update-profile":"kDlg2","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../../actions/actions":"biFwH","react-redux":"bdVon"}],"eyKYH":[function() {},{}],"kDlg2":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$844e = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -47159,6 +47169,8 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _reactBootstrap = require("react-bootstrap");
+var _reactRedux = require("react-redux");
+var _actions = require("../../actions/actions");
 var _s = $RefreshSig$();
 function UpdateProfile() {
     _s();
@@ -47209,7 +47221,7 @@ function UpdateProfile() {
                 Authorization: `Bearer ${token}`
             }
         }).then((response)=>{
-            localStorage.setItem('user', response.data.Username);
+            localStorage.setItem('user', this.props.setUser(response.data));
             alert('Your profile has been updated.');
             window.location.reload();
         }).catch((error)=>{
@@ -47224,7 +47236,7 @@ function UpdateProfile() {
                 children: "Edit Profile"
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-profile.jsx",
-                lineNumber: 73,
+                lineNumber: 76,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
@@ -47234,7 +47246,7 @@ function UpdateProfile() {
                         children: "Username"
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 76,
+                        lineNumber: 79,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
@@ -47244,7 +47256,7 @@ function UpdateProfile() {
                         onChange: (e)=>setUsername(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 77,
+                        lineNumber: 80,
                         columnNumber: 9
                     }, this),
                     usernameErr && /*#__PURE__*/ _jsxDevRuntime.jsxDEV("p", {
@@ -47252,13 +47264,13 @@ function UpdateProfile() {
                         children: usernameErr
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 79,
+                        lineNumber: 82,
                         columnNumber: 25
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/profile-view/update-profile.jsx",
-                lineNumber: 75,
+                lineNumber: 78,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
@@ -47268,7 +47280,7 @@ function UpdateProfile() {
                         children: "Password"
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 83,
+                        lineNumber: 86,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
@@ -47278,7 +47290,7 @@ function UpdateProfile() {
                         onChange: (e)=>setPassword(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 84,
+                        lineNumber: 87,
                         columnNumber: 9
                     }, this),
                     passwordErr && /*#__PURE__*/ _jsxDevRuntime.jsxDEV("p", {
@@ -47286,13 +47298,13 @@ function UpdateProfile() {
                         children: passwordErr
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 86,
+                        lineNumber: 89,
                         columnNumber: 25
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/profile-view/update-profile.jsx",
-                lineNumber: 82,
+                lineNumber: 85,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
@@ -47302,7 +47314,7 @@ function UpdateProfile() {
                         children: "Email"
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 90,
+                        lineNumber: 93,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
@@ -47312,7 +47324,7 @@ function UpdateProfile() {
                         onChange: (e)=>setEmail(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 91,
+                        lineNumber: 94,
                         columnNumber: 9
                     }, this),
                     emailErr && /*#__PURE__*/ _jsxDevRuntime.jsxDEV("p", {
@@ -47320,13 +47332,13 @@ function UpdateProfile() {
                         children: emailErr
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 93,
+                        lineNumber: 96,
                         columnNumber: 22
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/profile-view/update-profile.jsx",
-                lineNumber: 89,
+                lineNumber: 92,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Group, {
@@ -47336,7 +47348,7 @@ function UpdateProfile() {
                         children: "Birthday"
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 97,
+                        lineNumber: 100,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Form.Control, {
@@ -47345,13 +47357,13 @@ function UpdateProfile() {
                         onChange: (e)=>setBirthday(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/profile-view/update-profile.jsx",
-                        lineNumber: 98,
+                        lineNumber: 101,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/profile-view/update-profile.jsx",
-                lineNumber: 96,
+                lineNumber: 99,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ _jsxDevRuntime.jsxDEV(_reactBootstrap.Button, {
@@ -47359,19 +47371,27 @@ function UpdateProfile() {
                 children: "Update"
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-profile.jsx",
-                lineNumber: 101,
+                lineNumber: 104,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/components/profile-view/update-profile.jsx",
-        lineNumber: 71,
+        lineNumber: 74,
         columnNumber: 5
     }, this));
 }
-exports.default = UpdateProfile;
 _s(UpdateProfile, "inh2D4xaKqr2dNam+Xg8BctszGI=");
 _c = UpdateProfile;
+let mapStateToProps = (state)=>{
+    const { user  } = state;
+    return {
+        user
+    };
+};
+exports.default = _reactRedux.connect(mapStateToProps, {
+    setUser: _actions.setUser
+})(UpdateProfile);
 var _c;
 $RefreshReg$(_c, "UpdateProfile");
 
@@ -47380,6 +47400,6 @@ $RefreshReg$(_c, "UpdateProfile");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","axios":"jo6P5","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"eBaMl":[function() {},{}],"lJZlQ":[function() {},{}]},["kn9T2","1SYPb","d8Dch"], "d8Dch", "parcelRequireb175")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","axios":"jo6P5","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react-redux":"bdVon","../../actions/actions":"biFwH"}],"eBaMl":[function() {},{}],"lJZlQ":[function() {},{}]},["kn9T2","1SYPb","d8Dch"], "d8Dch", "parcelRequireb175")
 
 //# sourceMappingURL=index.b4b6dfad.js.map
