@@ -10,10 +10,10 @@ import DramasList from '../dramas-list/dramas-list';
 import {RegistrationView} from '../registration-view/registration-view';
 import {LoginView} from '../login-view/login-view';
 import {NavbarView} from '../navbar/navbar';
-import {DramaView} from '../drama-view/drama-view';
+import DramaView from '../drama-view/drama-view';
 import {DirectorView} from '../director-view/director-view';
 import {GenreView} from '../genre-view/genre-view';
-import {ProfileView} from '../profile-view/profile-view';
+import ProfileView from '../profile-view/profile-view';
 
 import './main-view.scss'
 
