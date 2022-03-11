@@ -23,7 +23,7 @@ Using React, to build a client-side for an application called kDrama App based o
 ## 🗝️ Key Features
 * **Main view**
     * Returns a list of ALL Korean dramas to the user (each listed item with an image, title, and description)
-    * Sorting and filtering
+    * Filtering
     * Ability to select a drama for more details
 * **Single drama view**
     * Returns data (description, genre, director, image, episodes, writer) about a single drama to the user
@@ -35,11 +35,9 @@ Using React, to build a client-side for an application called kDrama App based o
 
 * **Genre view**
     * Returns data about a genre, with a name and description
-    * Displays example dramas
 
 * **Director view**
     * Returns data about a director (name, bio, birth year, death year)
-    * Display example dramas
 
 * **Profile view**
     * Allows users to update their user info (username, password, email, date of birth)
