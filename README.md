@@ -25,7 +25,7 @@ Using React, to build a client-side for an application called kDrama App based o
     * Returns a list of ALL Korean dramas to the user (each listed item with an image, title, and description)
     * Sorting and filtering
     * Ability to select a drama for more details
-* **Single movie view**
+* **Single drama view**
     * Returns data (description, genre, director, image, episodes, writer) about a single drama to the user
     * Allows users to add a drama to their list of favourites
 * **Login view**
