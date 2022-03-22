@@ -142,7 +142,7 @@
 @media (min-width: 1200px) {
   .back-button {
     position: absolute !important;
-    left: -195px;
+    left: -12%;
   }
 }
 .director-view-row {
@@ -167,7 +167,7 @@
   .delete-user-button {
     padding-left: 70px !important;
     margin-top: -90px;
-    margin-left: 1220px;
+    margin-left: 85%;
     position: absolute;
   }
 }
